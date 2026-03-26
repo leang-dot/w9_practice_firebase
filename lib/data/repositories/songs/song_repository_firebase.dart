@@ -12,23 +12,18 @@ class SongRepositoryFirebase extends SongRepository {
     '/songs.json',
   );
 
-
-
-
   @override
   Future<List<Song>> fetchSongs() async {
     final http.Response response = await http.get(songsUri);
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       Map<String, dynamic> songsMap = json.decode(response.body);
 
-      return songsMap.entries.map((song){
+      return songsMap.entries.map((song) {
         String id = song.key;
-        return SongDto.fromJson(id ,{
-          ...song.value,
-        });
+        return SongDto.fromJson(id, {...song.value});
       }).toList();
-    }else{
+    } else {
       throw Exception("Failed to load Songs");
     }
   }
@@ -42,3 +37,4 @@ class SongRepositoryFirebase extends SongRepository {
       return null;
     }
   }
+}
